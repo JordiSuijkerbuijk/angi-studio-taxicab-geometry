@@ -68,35 +68,30 @@ const addObjectsToArray = (array, x, y, steps, sign, isOdd) => {
   }
 }
 
-const returnXYCoordinates = (arrOfObjects) => {
-  console.log(arrOfObjects)
+const returnXYCoordinates = (arrayOfObjects) => {
   let x = 0;
   let y = 0;
-  let step;
   let everyStep = [{ x: 0, y: 0 }];
 
-  for (step = 0; step < arrOfObjects.length; step++) {
-    const steps = arrOfObjects[step].amountOfSteps;
-    const sign = (arrOfObjects[step].to === 'North' || arrOfObjects[step].to === 'East') ? '+' : '-';
-    const isOdd = isIdOdd(arrOfObjects[step].id)
+  arrayOfObjects.map(item => {
+    const steps = item.amountOfSteps;
+    const sign = (item.to === 'North' || item.to === 'East') ? '+' : '-';
+    const isOdd = isIdOdd(item.id)
 
     addObjectsToArray(everyStep, x, y, steps, sign, isOdd)
-    if (isIdOdd(arrOfObjects[step].id)) {
+    if (isIdOdd(item.id)) {
       x = eval(`${x}${sign}${steps}`);
     }
     else {
       y = eval(`${y}${sign}${steps}`);
     }
-  }
+  })
 
-  return {
-    x,
-    y
-  }
+  return { x, y }
 };
 
 const converted = convertToObject(array);
 const endCoordinates = returnXYCoordinates(converted);
 const shortestPossiblePath = Math.abs(endCoordinates.x) + Math.abs(endCoordinates.y);
 
-console.log(shortestPossiblePath)
+console.log(`The delivery guy is currently ${shortestPossiblePath} blocks away from his destination`)
